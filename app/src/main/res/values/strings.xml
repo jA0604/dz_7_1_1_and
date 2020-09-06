@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">dz_7_1_1_and</string>
+    <string name="name_dz">Синхронизация данных</string>
+    <string name="str_btn_sync">Синхронизация</string>
+    <string name="str_morning">Morning</string>
+    <string name="str_afternoon">Afternoon</string>
+    <string name="str_evening">Evening</string>
+</resources>
