@@ -8,11 +8,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-
-import static java.lang.String.valueOf;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,11 +30,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_SYNC);
 
-                if (CurrentTimeBetwen(6, 14)) {
+                DateFormat timeFormat = new SimpleDateFormat("HH", Locale.getDefault());
+                int time = Integer.parseInt(timeFormat.format(Calendar.getInstance().getTime()));
+
+
+                if (time >= 6 && time < 14) {
                     intent.setData(Uri.parse("http://morning"));
-                } else if(CurrentTimeBetwen(14, 15)) {
+                } else if (time >= 14 && time < 15) {
                     intent.setData(Uri.parse("http://afternoon"));
-                } else if (CurrentTimeBetwen(15, 6)) {
+                } else {
                     intent.setData(Uri.parse("http://evening"));
                 }
 
@@ -45,30 +49,5 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private boolean CurrentTimeBetwen(int startTime, int endTime) {
-        GregorianCalendar gcCurrent = new GregorianCalendar();
-        GregorianCalendar gcGiven = new GregorianCalendar();
 
-        gcGiven.set(Calendar.HOUR_OF_DAY, startTime);
-        gcGiven.set(Calendar.MINUTE, 0);
-        gcGiven.set(Calendar.SECOND, 0);
-
-        boolean result;
-        if (startTime > endTime) {
-            result = (gcCurrent.getTimeInMillis() - (gcGiven.getTimeInMillis() - 86400000) > 0);
-        } else {
-            result = (gcCurrent.getTimeInMillis() - gcGiven.getTimeInMillis() > 0);
-        }
-
-        gcGiven.set(Calendar.HOUR_OF_DAY, endTime);
-        gcGiven.set(Calendar.MINUTE, 0);
-        gcGiven.set(Calendar.SECOND, 0);
-
-        if (startTime > endTime) {
-            return result && (gcCurrent.getTimeInMillis() - (gcGiven.getTimeInMillis() + 86400000) < 0);
-        } else {
-
-            return result && (gcCurrent.getTimeInMillis() - gcGiven.getTimeInMillis() < 0);
-        }
-    }
 }
